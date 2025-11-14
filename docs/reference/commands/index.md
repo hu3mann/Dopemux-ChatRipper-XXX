@@ -10,6 +10,9 @@ Topics
 
 Browse the source tree for the full list, or start from notable entries:
 
+- Dopemux orchestration
+  - [dopemux CLI](dopemux.md)
+
 - Task lifecycle
   - `.claude/commands/tm/tm-main.md`
   - `.claude/commands/tm/list/list-tasks.md`
