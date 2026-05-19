@@ -182,41 +182,50 @@ Before changing shared artifacts determine:
 * caches
 * deprecated surfaces
 
+This is the more-complete ChatX repository (Dopemux integration). Canonical writers:
+
+* **Source**: `src/` (CLI + plugin extractors for iMessage, Instagram DM, WhatsApp, text)
+* **Schemas**: `schemas/` (JSON Schemas)
+* **Architecture (comprehensive)**: `architecture-comprehensive.md`
+* **Operator docs**: `docs/`
+* **LLM context surface**: `llm-context.md`, `llms.md`
+* **Config**: `config/`, `context_portal/` (ConPort integration data)
+* **Verification fixtures**: `QUICK_VERIFICATION.py`, `test_integration.py`
+
+`AGENTS.md` defines repository guidelines for project structure, slice-based workflow, build/test commands, coding style, security, and MCP integration — read it before changing runtime.
+
 Do not silently fork contracts downstream. Preserve separation between:
 
-* truth vs projection
-* authority vs advisory
-* runtime vs audit
-* execution vs analysis
-
-If the project's `AGENTS.md` defines architecture boundaries (canonical writers per service / module), treat that section as authoritative. Customize this section per repo to list the project's actual canonical writers.
+* truth (extracted data per schema) vs projection (analyses, DP aggregates)
+* authority (`schemas/`, `AGENTS.md`) vs advisory (working notes, llm-context.md)
+* runtime (CLI extractors, redaction, DP pipeline) vs audit (tests, fixtures)
+* execution (local-only by default) vs analysis (cloud only after redaction)
 
 ---
 
 ## Contract-Sensitive Surfaces
 
-Treat as high-risk:
+Treat as high-risk in this repo:
 
-* schemas (JSON Schema, OpenAPI, protobuf, SQL DDL)
-* manifests (MCP server manifests, plugin manifests, package metadata)
-* migrations
-* event payloads (queues, streams, websockets)
-* serializers / deserializers
-* MCP tool input/output shapes
-* APIs (REST, GraphQL, RPC contracts)
-* proof bundles / audit artifacts
-* checkpoints / replay state
-* hook dispatchers and lifecycle scripts
+* **`schemas/`** — authoritative cross-platform JSON Schemas
+* **Differential Privacy implementation** in `src/` — (ε,δ)-DP correctness; math errors leak data
+* **Redaction pipeline** — privacy-critical
+* **Plugin extractor interfaces** — every platform plugin depends on them
+* **`context_portal/`** — ConPort integration; persistent project memory
+* **`config/`** — operator config, redaction policies, cloud opt-in flags
+* **`pyproject.toml`** + `uv.lock`
+* **MCP integration files** — agent/tool boundary
+* **`architecture-comprehensive.md`** — design contract document
 
 Before modifying any of these:
 
-1. identify the canonical writer
-2. inspect consumers
-3. inspect replay behavior
-4. validate compatibility
-5. review downstream impact
+1. identify the canonical writer in `src/`
+2. inspect consumers (other extractors, redaction, DP, ConPort writers)
+3. inspect replay behavior (same input → same output, especially under DP)
+4. validate compatibility (schema validation; full test suite; DP correctness tests)
+5. review downstream impact (privacy posture, cloud boundary, MCP tool exposure)
 
-Unknown contract implications = stop and investigate.
+Privacy-first. DP guarantees must be mathematically defensible. Never relax redaction. Unknown contract implications = stop and investigate.
 
 ---
 
