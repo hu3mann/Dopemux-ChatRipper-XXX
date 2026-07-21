@@ -31,7 +31,7 @@ classifiers = [
 
 dependencies = [
     # Core CLI and data handling
-    "pydantic>=2.8,<3",
+    "pydantic>=2.13.4,<3",
     "pydantic-settings>=2.4,<3",
     "click>=8.1.0",
     "rich>=13.0.0",
