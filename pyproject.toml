@@ -104,7 +104,7 @@ dev = [
     # Type stubs
     "types-jsonschema>=4.0.0",
     "types-requests>=2.31.0",
-    "types-setuptools>=69.0.0",
+    "types-setuptools>=83.0.0.20260716",
     # Additional tools
     "pillow-heif>=0.14.0",
 ]
