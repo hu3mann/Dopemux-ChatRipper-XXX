@@ -48,7 +48,7 @@ jobs:
       # Docs: actions/setup-python cache + cache-dependency-path
       # https://github.com/actions/setup-python
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: ${{ matrix.python-version }}
           cache: pip
