@@ -117,6 +117,7 @@ Issues = "https://github.com/hue/Dopemux-ChatRipperXX/issues"
 
 [project.scripts]
 chatx = "chatx.cli.main:cli"
+dopemux = "chatx.dopemux.cli:app"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/chatx"]
