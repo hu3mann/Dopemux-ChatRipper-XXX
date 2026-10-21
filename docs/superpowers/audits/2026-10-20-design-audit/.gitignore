@@ -1,0 +1,6 @@
+bundles/
+*.zip
+out/*.log
+out/*.stdout.md
+out/*.jsonl
+out/*.tmp.*
