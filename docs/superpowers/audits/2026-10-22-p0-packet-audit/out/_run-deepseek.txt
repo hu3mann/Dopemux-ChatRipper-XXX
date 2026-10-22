@@ -1,0 +1,11 @@
+auditor: deepseek
+attempt: 3 (read-only print mode, cwd=$D, plan mode; attempt-1/2 artefacts in out/_attempt1-cmd-failed/ and out/_attempt2-cmd-failed/)
+requested model: deepseek/deepseek-v4-pro
+requested effort: runner default
+command: ( cd "/Users/hue/code/Dopemux-ChatRipperXXX/docs/superpowers/audits/2026-10-22-p0-packet-audit" && cmd -p "$(cat "/Users/hue/code/Dopemux-ChatRipperXXX/docs/superpowers/audits/2026-10-22-p0-packet-audit/PROMPT-deepseek.readonly.md")" --model deepseek/deepseek-v4-pro --permission-mode plan -t --max-turns 300 --output-format json )
+start: 2026-10-22T17:09:50Z
+end: 2026-10-22T17:15:29Z
+exit code: 0
+stdout bytes (NDJSON): 296926390
+extract exit code: 0 (0 = both deliverables written, 4 = missing block(s), 3 = no final text)
+observed usage: {"usage": {"inputTokens": 376601, "outputTokens": 36676, "cacheReadTokens": 296704, "cacheWriteTokens": 0}, "subtype": "success", "sessionId": "3180be63-d7f1-44c2-b564-9d6d5821a82f", "stopReason": "end_turn", "durationMs": 336393}

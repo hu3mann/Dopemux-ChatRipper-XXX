@@ -1,0 +1,8 @@
+auditor: astra
+requested model: gpt-6-astra
+requested effort: xhigh (model_reasoning_effort)
+command: codex exec -m gpt-6-astra -c 'model_reasoning_effort="xhigh"' -s workspace-write -C "/Users/hue/code/Dopemux-ChatRipperXXX/docs/superpowers/audits/2026-10-22-p0-packet-audit/out" -o "/Users/hue/code/Dopemux-ChatRipperXXX/docs/superpowers/audits/2026-10-22-p0-packet-audit/out/astra.last-message.md" - < "/Users/hue/code/Dopemux-ChatRipperXXX/docs/superpowers/audits/2026-10-22-p0-packet-audit/PROMPT-astra.md"
+start: 2026-10-22T11:08:16Z
+end: 2026-10-22T11:26:14Z
+exit code: 0
+stdout bytes: 39843

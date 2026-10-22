@@ -1,0 +1,11 @@
+auditor: argon
+attempt: 3 (read-only print mode, cwd=$D, plan mode; attempt-1/2 artefacts in out/_attempt1-cmd-failed/ and out/_attempt2-cmd-failed/)
+requested model: google/gemini-4-argon
+requested effort: runner default
+command: ( cd "/Users/hue/code/Dopemux-ChatRipperXXX/docs/superpowers/audits/2026-10-22-p0-packet-audit" && cmd -p "$(cat "/Users/hue/code/Dopemux-ChatRipperXXX/docs/superpowers/audits/2026-10-22-p0-packet-audit/PROMPT-argon.readonly.md")" --model google/gemini-4-argon --permission-mode plan -t --max-turns 300 --output-format json )
+start: 2026-10-22T17:05:52Z
+end: 2026-10-22T17:08:48Z
+exit code: 0
+stdout bytes (NDJSON): 8170347
+extract exit code: 0 (0 = both deliverables written, 4 = missing block(s), 3 = no final text)
+observed usage: {"usage": {"inputTokens": 263883, "outputTokens": 12206, "cacheReadTokens": 192727, "cacheWriteTokens": 0}, "subtype": "success", "sessionId": "20e7bfa4-6579-47b5-b352-87644a28d146", "stopReason": "end_turn", "durationMs": 174967}

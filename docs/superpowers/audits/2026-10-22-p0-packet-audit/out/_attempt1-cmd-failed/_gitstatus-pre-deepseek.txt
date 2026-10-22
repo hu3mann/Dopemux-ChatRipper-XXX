@@ -1,0 +1,4 @@
+## chatx
+?? docs/dopemux-mvp-research.md
+?? docs/superpowers/audits/2026-10-22-p0-packet-audit/
+## dnh

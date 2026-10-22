@@ -1,0 +1,8 @@
+Packed files for chatx-p0-packet-audit-pack-2026-10-22.zip (sha256, generated 2026-10-22T11:04:48Z)
+e1d3049d771afaeb2b5560f5d8abf068936d53034578df225fe3fbca4b8f6e7b  PROMPT-master.md
+5667c3e447fa21afbd142702a013fdc10238ec6ed10ea8153134156fea43099a  PROMPT-astra-pro-web.md
+605278090866f493184cf1d019cc030d934bb64d9e9b04ad7100a2eaadf54076  inputs/2026-10-20-chatx-rearchitecture-design.md
+f5b20b0a711c1b27b86fbfe3f6275ad32cec1584ad4b461b28c19a607559baaa  inputs/2026-10-21-next-steps.md
+38d0f84d5606c4cd62d360bf435ff04d0f7e1845e90d37c8f3c8ad5a6e7302dd  inputs/2026-10-21-p0-workspace-packet.md
+89675133d3a9a29a74944efc4ce4cbbb6e3eb086391faaec327a447489addb4a  inputs/SHA256SUMS
+3aa591d989153b642a024485feaac6b7d73bdc3f3b131a4de76453bc4a75de37  bundles/dnh-packaging-bundle.md

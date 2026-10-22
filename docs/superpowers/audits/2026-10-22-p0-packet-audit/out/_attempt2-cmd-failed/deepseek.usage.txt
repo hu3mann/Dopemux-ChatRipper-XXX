@@ -1,0 +1,1 @@
+{"usage": {"inputTokens": 32366, "outputTokens": 238, "cacheReadTokens": 5504, "cacheWriteTokens": 0}, "subtype": "success", "sessionId": "0f51c406-f655-4989-938b-3c3a0201826c", "stopReason": "permission_denied", "durationMs": 9590}

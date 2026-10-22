@@ -1,0 +1,13 @@
+auditor: astra-pro
+attempt: 1 (owner-operated web lane on chatgpt.com; no runner automation, no tool access)
+requested model: GPT-6 Astra Pro, UI default effort — as named in PROMPT-astra-pro-web.md
+observed model: self-report only ("GPT-6 Astra Pro, as identified by this session; no independent runtime attestation") -> runtime receipt UNKNOWN
+command: n/a — owner attached chatx-p0-packet-audit-pack-2026-10-22.zip (sha256 3e22318c876003ed4a582b6566d2f74edd5b549027086031ec89ec24c6ea3ef7) and pasted PROMPT-astra-pro-web.md (sha256 5667c3e447fa21afbd142702a013fdc10238ec6ed10ea8153134156fea43099a) into a new chat
+start / end: UNKNOWN (not instrumented); response handed back to the Claude Code supervisor session on 2026-10-22
+exit code: n/a
+return path: owner pasted the final answer into the supervisor session -> written verbatim to out/astra-pro.last-message.md (51819 bytes, sha256 f7cac2f58c93388298c0003acfb58666a0551162503ac453b503d52b07ae2ec3)
+extract: extract_reports.py astra-pro -> report-astra-pro.md (59 lines, 4015 words, sha256 919accf3b0a7836c1cff3aa8fc124064ae518412f3ad76b3f471fd4e06090218), preapproval-astra-pro.md (51 lines, 2409 words, sha256 6aa38bf8037d6b755214ec1bbd19379840e7712d9cf4a038cfb1ea55982bdc55); exit 0, no WARN (identity block and Packet verdict present)
+auditor self-check: states all three input-document hashes matched inputs/SHA256SUMS; states neither repository was accessed or modified
+observed usage: not exposed by ChatGPT web -> UNKNOWN
+tool_denied: n/a (lane has no tool access)
+git status pre/post: n/a — the lane had no repository access; the only repository writes are the three out/ files above, made by the supervisor after the paste

@@ -1,0 +1,2 @@
+--tools-enable: ignoring read_file — not withheld by this run. It only re-enables the tools a headless run holds back: ask_user_question, enter_plan_mode, exit_plan_mode, plan_review, todo_write, cron_create, cron_list, cron_delete, schedule_wakeup, taste.
+Warning: The model produced no response (continuation budget exhausted). Retry, or try a different model.

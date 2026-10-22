@@ -1,0 +1,8 @@
+auditor: grok
+requested model: grok-4.7
+requested effort: runner default
+command: grok --prompt-file "/Users/hue/code/Dopemux-ChatRipperXXX/docs/superpowers/audits/2026-10-22-p0-packet-audit/PROMPT-grok.md" -m grok-4.7 --sandbox chatx-p0-audit --max-turns 400 --output-format plain --cwd "/Users/hue/code/Dopemux-ChatRipperXXX/docs/superpowers/audits/2026-10-22-p0-packet-audit/out"
+start: 2026-10-22T11:08:16Z
+end: 2026-10-22T11:31:23Z
+exit code: 0
+stdout bytes: 33521
