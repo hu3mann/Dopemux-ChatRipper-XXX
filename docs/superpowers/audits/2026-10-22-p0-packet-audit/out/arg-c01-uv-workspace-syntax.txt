@@ -1,0 +1,28 @@
+ARG-C01 scratch test: can a NON-member project resolve a workspace member via { workspace = "../ws" } vs { path = ... }? (argon DECISION CHALLENGE 2; spec L147; packet X3)
+date: 2026-10-22T19:02:43Z   uv: uv 0.12.11 (4b53f66b7 2026-09-08 aarch64-apple-darwin)   python3: Python 3.12.13   mode: uv lock --offline (fails closed, no network)
+
+=== form: core = { workspace = "../ws" } ===
+Using CPython 3.12.9
+Resolved 2 packages in 13ms
+exit=0
+17:name = "core"
+18-version = "0.0.1a0"
+19-source = { editable = "../ws/packages/core" }
+
+=== form: core = { path = "../ws/packages/core" } ===
+Using CPython 3.12.9
+Resolved 2 packages in 4ms
+exit=0
+17:name = "core"
+18-version = "0.0.1a0"
+19-source = { directory = "../ws/packages/core" }
+
+=== form: core = { path = "../ws/packages/core", editable = true } ===
+Using CPython 3.12.9
+Resolved 2 packages in 3ms
+exit=0
+17:name = "core"
+18-version = "0.0.1a0"
+19-source = { editable = "../ws/packages/core" }
+
+scratch dir left in place: /tmp/argc01.QGXsrB
