@@ -2,17 +2,17 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking. Do not start until the supervisor records owner approval.
 
-Status: DRAFT — not approved. Owner is reading design rev 2 (step S0); nothing here executes until the owner approves.
+Status: DRAFT — not approved. The owner decided the three open gaps (G-A, G-B, G-E) on 2026-10-22 and the spec is at rev 2.1; nothing here executes until the owner approves this packet.
 Date: 2026-10-21
 Plan step: S2 of `docs/superpowers/plans/2026-10-21-next-steps.md` (draft by Sonnet, supervisor reviews).
 
-**Goal:** Create the `~/code/chatstack` uv workspace with two empty packages and a CI that proves the installed wheel works, so P0.5 and P1 have somewhere to land.
+**Goal:** Create the `~/code/chatstack` uv workspace with two packages that hold only metadata and the P0 failure-path stubs (G-A), a CI that proves the installed wheel works, and the `core-v0.0.1a0` pre-release dNh can pin (G-E), so P0.5 and P1 have somewhere to land.
 
 **Architecture:** A new git repo (owner item 1) whose root is a uv workspace (`members = ["packages/*", "apps/*"]`). `packages/chat-extraction-core` (MIT) and `apps/chatx` hold only package metadata, a version, and the minimal code the failure-path stubs need. CI builds wheels, installs them in a fresh venv outside the checkout, and runs the tests there.
 
 **Tech Stack:** Python `>=3.12`, uv (0.12.11 present locally), hatchling, ruff, `mypy --strict` (core) and a strict configuration (app), pytest + pytest-cov, pre-commit, `uv lock --check`, `pip-audit`, GitHub Actions.
 
-**Spec:** `/Users/hue/code/Dopemux-ChatRipperXXX/docs/superpowers/specs/2026-10-20-chatx-rearchitecture-design.md` (rev 2, 1,261 lines).
+**Spec:** `/Users/hue/code/Dopemux-ChatRipperXXX/docs/superpowers/specs/2026-10-20-chatx-rearchitecture-design.md` (rev 2.1, 1,269 lines; rev 2.1 adds only the §6 P0-row rewording and the §14 "Rev 2 → rev 2.1" block).
 
 ## Inputs (spec line ranges actually read)
 
@@ -59,7 +59,7 @@ Exit criteria, quoted from the same row:
 
 - P0.5 spikes (a)–(e), including anything touching the owner's `chat.db` or dNh's database.
 - P1 and later: schema v2 models, parsers, fixtures, the real error registry, the CLI, the case store, the shield, providers. Nothing from the §8 keep-list is ported in P0.
-- Any edit to the rev 2 spec or to `Dopemux-ChatRipperXXX` other than this packet. The old repo's tag `pre-rearchitecture-2026-10-20` and archiving (P7) are not P0.
+- Any edit to the rev 2.1 spec or to `Dopemux-ChatRipperXXX` other than this packet. The old repo's tag `pre-rearchitecture-2026-10-20` and archiving (P7) are not P0.
 - Any edit to `/Users/hue/code/dNh_CRM` (see Cross-repo criterion).
 - Control Tower registration and TaskMaster list archival (S6 in the next-steps plan).
 - Mutation testing (`mutmut`), property tests, fixture builders, perf markers, the real-sample shield evaluation. These gates apply from later phases.
@@ -78,7 +78,7 @@ The row is one cell with four semicolon-separated criteria; the first and third 
 | X1 | A green CI run, its URL recorded, that includes the failure-path tests (exit 3, `E_GATE_MISMATCH`, `E_SCHEMA_MISSING` stubs) | `gh run list -R <repo> --workflow ci.yml --limit 1 --json conclusion,url,headSha` returns `success` for the exact commit; `gh run view <id> --log` shows the three failure-path tests passed (not skipped); URL written to `docs/p0-exit-record.md` (path proposed, B12) | NOT_RUN |
 | X2 | `uv sync` works from a clean clone | `git clone <remote> $SCRATCH/clean && cd $SCRATCH/clean && uv sync --all-packages --locked` exits 0, then `uv run pytest -q` exits 0. CI also runs this in a dedicated job (Task 6) | NOT_RUN |
 | X3 | a dNh dev branch resolves the core by both the `path` and `workspace` forms | CROSS-REPO, needs separate authority (see section below). Check: from clean clones of dNh and chatstack, `uv lock` and `uv sync` succeed with `{ path = "../chatstack/packages/chat-extraction-core", editable = true }`, then with `{ workspace = "../chatstack" }`; `uv pip show chat-extraction-core` resolves in both | NOT_RUN |
-| X4 | that branch's CI installs a pinned wheel and passes (merging it is dNh's decision, not a ChatX exit criterion) | CROSS-REPO, needs separate authority. Check: the dNh branch's CI run is green and its log shows the core installed from a wheel pinned by version and sha256 (`--require-hashes` or equivalent in the lock). Source of the wheel: UNKNOWN (B9) | NOT_RUN |
+| X4 | that branch's CI installs a pinned wheel and passes (merging it is dNh's decision, not a ChatX exit criterion) | CROSS-REPO, needs separate authority. Check: the dNh branch's CI run is green and its log shows the core installed from a wheel pinned by version and sha256 (`--require-hashes` or equivalent in the lock). Source of the wheel: the `core-v0.0.1a0` pre-release assets — version and sha256 from `SHA256SUMS` (B9, decided 2026-10-22) | NOT_RUN |
 | X5 | `sqlite_version` recorded and ≥ floor | CI step prints `sqlite3.sqlite_version` and writes it to a job summary and uploaded artifact `sqlite-version.txt`; `tests/test_sqlite_floor.py` asserts the floor predicate (Task 5); the value is also written into `docs/reference/conformance.md` by the closing step. Floor: ≥ 3.51.3, or 3.50.x ≥ 3.50.7, or 3.44.x ≥ 3.44.6 (spec line 156) | NOT_RUN |
 
 ### Scope items (§6 P0 Scope cell, not exit criteria; each still needs evidence)
@@ -118,7 +118,7 @@ Not applicable at P0 (no code or data for them to test): mutation kill rate on s
   2. Path form: dependency `{ path = "../chatstack/packages/chat-extraction-core", editable = true }`. Run `uv lock` then `uv sync`; import `chat_extraction_core` succeeds.
   3. Workspace form: `{ workspace = "../chatstack" }` exactly as the spec writes it (line 147). The spec cites evidence E8, and the audit's `out/external-fact-check.md` row E8 confirms it against docs.astral.sh: `workspace` may be "a path string to resolve a dependency from a different workspace"; the path points at the external workspace root and uv resolves the member named `chat-extraction-core`. Run `uv lock` then `uv sync` with the uv version pinned for the build; import succeeds. If that uv version rejects the form, stop (Stop S6).
   4. The branch's CI installs the core from a wheel pinned by version and sha256 and passes (X4).
-- Prerequisite from chatstack: a built wheel with a known sha256. Source is UNKNOWN (B9).
+- Prerequisite from chatstack: a built wheel with a known sha256. Source: the `core-v0.0.1a0` pre-release assets (B9, decided; Task 7 Step 5).
 
 ## File structure (created by this packet)
 
@@ -173,7 +173,7 @@ Tension to resolve before Task 3 (see Gaps G-A): §6 says "two empty packages" y
 - [ ] **Step 1: Copy the spec byte-for-byte**: `cp /Users/hue/code/Dopemux-ChatRipperXXX/docs/superpowers/specs/2026-10-20-chatx-rearchitecture-design.md /Users/hue/code/chatstack/docs/design/`. Run `shasum -a 256` on source and copy; expected: identical (S10). Record the hash in `docs/p0-exit-record.md`. Do not edit the copy.
 - [ ] **Step 2: Write `docs/adr/0000-template.md`** with sections Title, Status, Context, Decision, Consequences, Alternatives rejected, Evidence. (Section list proposed, B6; the spec names no template shape.)
 - [ ] **Step 3: Write `docs/reference/conformance.md`** with the table above and one sentence stating the rule from spec line 164: P0 CI writes what it observes; anything not observed stays UNKNOWN.
-- [ ] **Step 4: Commit** `docs: add design rev 2 copy, ADR template, conformance skeleton` (S7, S8, S10).
+- [ ] **Step 4: Commit** `docs: add design rev 2.1 copy, ADR template, conformance skeleton` (S7, S8, S10).
 
 ### Task 3: Package `chat-extraction-core` with schema-missing stub
 
@@ -239,7 +239,7 @@ Tension to resolve before Task 3 (see Gaps G-A): §6 says "two empty packages" y
 ### Task 6: CI workflow written fresh
 
 **Files:**
-- Create: `.github/workflows/ci.yml`
+- Create: `.github/workflows/ci.yml`, `.github/workflows/release.yml`
 
 **Interfaces:**
 - Produces the jobs below. No file named `arch-gates.yml` anywhere; no workflow copied from `Dopemux-ChatRipperXXX` (S5). Action versions and runner labels: UNKNOWN, pin at build time to exact tags and record them in the commit message (B3). macOS arm64 is required, Linux x86_64 is nice to have (spec line 1084).
@@ -254,7 +254,8 @@ Jobs (matrix `os`: macOS arm64 required; Linux x86_64 optional, marked `continue
    - `mkdir "$RUNNER_TEMP/run" && cd "$RUNNER_TEMP/run"`, then run `"$RUNNER_TEMP/venv/bin/python" -m pytest "$GITHUB_WORKSPACE/packages/chat-extraction-core/tests" "$GITHUB_WORKSPACE/apps/chatx/tests" --cov=chat_extraction_core --cov=chatx --cov-branch --cov-fail-under=90 -p no:cacheprovider`, including the `installed`-marked tests; the cwd is outside the checkout and the checkout's `src/` is not on `sys.path`, which `test_installed_not_checkout` proves;
    - `"$RUNNER_TEMP/venv/bin/python" "$GITHUB_WORKSPACE/scripts/record_sqlite_version.py" | tee "$GITHUB_STEP_SUMMARY"` and upload `sqlite-version.txt` (X5).
 4. `clean-clone`: `git clone "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY" "$RUNNER_TEMP/clean"` at the same SHA, `uv sync --all-packages --locked`, `uv run pytest -m "not installed"` (X2).
-Triggers: `push` and `pull_request` (not specified by spec; proposed, B3).
+5. `release` (in `release.yml`; G-E option b, decided): runs only on pushes of tags matching `core-v*`. `uv build --package chat-extraction-core --wheel --out-dir dist`; `sha256sum dist/*.whl > dist/SHA256SUMS`; `gh release create "$GITHUB_REF_NAME" --prerelease --title "$GITHUB_REF_NAME" --notes-file "docs/release-notes/$GITHUB_REF_NAME.md" dist/*.whl dist/SHA256SUMS`. The notes file is committed before the tag (Task 7 Step 5). No PyPI or other index at P0.
+Triggers: `ci.yml` on `push` and `pull_request` (not specified by spec; proposed, B3); `release.yml` on tag pushes `core-v*` (decided, G-E).
 Failure-path tests run in job 3 by name; the job also runs `pytest --collect-only -q -k "failure_paths"` and fails if fewer than the expected count is collected (guards against silent deselection). Expected count: UNKNOWN until the first local run (parametrised cases count individually); record it then (B11).
 
 - [ ] **Step 1: Write `ci.yml`** per the jobs above with a tiny local lint (`uvx actionlint` if available, otherwise `NOT_RUN`).
@@ -272,9 +273,10 @@ Failure-path tests run in job 3 by name; the job also runs `pytest --collect-onl
 - [ ] **Step 2: Watch CI** in the background: `gh run watch -R DDD-Enterprises/chatstack` (exit status 8 on `gh pr checks` while pending is not a failure). Expected: all required jobs `success`.
 - [ ] **Step 3: Record**: run URL, head SHA, the three failure-path test names as seen in the log, `sqlite_version` from the macOS arm64 job, the design copy sha256, and the wheel sha256 digests into `docs/p0-exit-record.md`; copy the CI-observed SQLite and uv versions into `conformance.md`. Commit and push; the CI run for that final commit must also be green and its URL is the one recorded for X1 (record the SHA so the record does not chase its own tail: the recorded URL is for the commit before the record commit, which touches docs only; note this in the file).
 - [ ] **Step 4: Verify X2 from outside CI**: `git clone` to `$SCRATCH/clean`, `uv sync --all-packages --locked`, `uv run pytest -q -m "not installed"`.
-- [ ] **Step 5: Hand off X3/X4** to whoever holds dNh authority with the Cross-repo section and the wheel digest. Leave X3, X4 `NOT_RUN` until they report evidence.
+- [ ] **Step 5: Pre-release tag (owner authority, Stop S1; G-E option b)**: commit `docs/release-notes/core-v0.0.1a0.md` (states: P0 pre-release, no adapter tests to run so the line-143 pre-tag step is NOT_RUN, wheel built by `release.yml` from the tagged tree). On that commit, once its CI is green: `git -C /Users/hue/code/chatstack tag -a core-v0.0.1a0 -m "core 0.0.1a0 pre-release (P0)"` then `git -C /Users/hue/code/chatstack push origin core-v0.0.1a0`. Wait for the `release` workflow; record the release URL and the `SHA256SUMS` digest in `docs/p0-exit-record.md` next to the `wheel-tests` digest for the same SHA (they are expected to match; if they differ, record both and note that byte-reproducible wheel builds are not a P0 gate — dNh pins the release asset's digest).
+- [ ] **Step 6: Hand off X3/X4** to whoever holds dNh authority with the Cross-repo section, the release URL and the pinned digest. Leave X3, X4 `NOT_RUN` until they report evidence.
 
-## Builder decisions (spec §11 items P0 touches; all values are `proposed`, not decided)
+## Builder decisions (spec §11 items P0 touches; values are `proposed` unless marked **decided** — B4 core version and B9 were decided by the owner on 2026-10-22)
 
 Spec §11 (lines 1078–1090) items P0 touches: "CI and logging: the CI matrix (macOS arm64 required, Linux x86_64 nice to have)". Naming and storage details and fixtures are P1+. Everything else below is not a §11 item but is stated UNKNOWN by the spec and needs a default.
 
@@ -283,12 +285,12 @@ Spec §11 (lines 1078–1090) items P0 touches: "CI and logging: the CI matrix (
 | B1 | Interpreter and `.python-version` | spec: `>=3.12`, floor on linked SQLite; mise 3.12.13 links 3.53.1 (line 158) | proposed: mise-managed 3.12.13 if Task 1 Step 1 confirms 3.53.1 locally |
 | B2 | Root `pyproject.toml` shape | not stated | proposed: virtual root (no `[project]`), dev tools in a dependency group |
 | B3 | CI matrix, runners, triggers | §11: macOS arm64 required, Linux x86_64 nice to have | proposed: macOS arm64 required job; Linux x86_64 `continue-on-error: true`; runner labels and action tags UNKNOWN, pin at build time; triggers `push` and `pull_request` |
-| B4 | Distribution name of the app and package versions | core `chat-extraction-core` stated; app distribution name not stated | proposed: `chatx`; both start at `0.0.0` |
+| B4 | Distribution name of the app and package versions | core `chat-extraction-core` stated; app distribution name not stated | proposed: `chatx`; the core starts at `0.0.1a0` so the P0 pre-release tag `core-v0.0.1a0` (B9, decided) matches the wheel's version; the app starts at `0.0.0` |
 | B5 | Where the floor predicate and recorder live | not stated (line 157 says the app refuses to open a case) | proposed: `chat_extraction_core/sqlite_floor.py` plus `scripts/record_sqlite_version.py`; may move in P1/P2 |
 | B6 | ADR template path and sections | not stated | proposed: `docs/adr/0000-template.md`, sections Title/Status/Context/Decision/Consequences/Alternatives rejected/Evidence |
 | B7 | Path of the design copy | "this document copied in" only | proposed: `docs/design/2026-10-20-chatx-rearchitecture-design.md` |
 | B8 | `pip-audit` invocation and pre-commit revs | tools named, flags not | proposed: audit the exported lock (`uv export --frozen --all-packages --no-emit-workspace` piped to `pip-audit --requirement - --no-deps --disable-pip`), verify flags against the installed version first; pre-commit revs from `autoupdate` |
-| B9 | Source of the pinned wheel for dNh (X4) | release contract says tags `core-vX.Y.Z` with wheel + sha256 built in CI (line 142); P0 cutting a tag is not stated | proposed: P0 CI uploads wheel and sha256 as a build artifact only; no tag or release without explicit owner authority |
+| B9 | Source of the pinned wheel for dNh (X4) | release contract says tags `core-vX.Y.Z` with wheel + sha256 built in CI (line 142); P0 cutting a tag is not stated | **decided (owner, 2026-10-22, G-E option b)**: after the first green run, tag `core-v0.0.1a0`; the `release` workflow builds the core wheel from the clean tagged tree and publishes it with `SHA256SUMS` as assets of a GitHub release marked pre-release; dNh pins that version and sha256. The adapter-test step the contract requires before tagging (line 143) has nothing to run at P0 and is recorded as NOT_RUN in the release notes. Creating the tag needs owner authority (Stop S1) |
 | B10 | Declare `pydantic`/`phonenumbers` at P0 | listed dependencies stated; whether empty package declares them not stated | proposed: declare them |
 | B11 | Test markers and expected failure-path count | not stated | proposed: marker `installed`; count fixed from first local run |
 | B12 | Where the CI URL is recorded | "its URL recorded", location not stated | proposed: `docs/p0-exit-record.md` |
@@ -305,11 +307,11 @@ Spec §11 (lines 1078–1090) items P0 touches: "CI and logging: the CI matrix (
 
 ## Gaps and contradictions found in the spec
 
-- G-A (tension, not a contradiction): line 871 says "two empty packages" and also requires failure-path "stubs" in P0 CI. Stubs cannot pass without some code. Resolved by proposal only (Tasks 3, 4); owner/supervisor should confirm.
-- G-B (inconsistency in scope of "exit 3"): the P0 row lists "exit 3, `E_GATE_MISMATCH`, `E_SCHEMA_MISSING` stubs" together, but `E_SCHEMA_MISSING` is exit 1 (line 661) and only `E_GATE_MISMATCH` is exit 3 (line 663). The tests here assert each code's own mapping.
+- G-A (decided 2026-10-22, owner: option a): line 871 says "two empty packages" and also requires failure-path "stubs" in P0 CI. Stubs cannot pass without some code. The owner allows the minimal stubs in Tasks 3 and 4 — an `errors.py` and a resource loader in the core that raise `E_SCHEMA_MISSING`, and an app entry point that maps `E_GATE_MISMATCH` to exit 3 — and nothing beyond them in P0.
+- G-B (inconsistency in scope of "exit 3"): the P0 row lists "exit 3, `E_GATE_MISMATCH`, `E_SCHEMA_MISSING` stubs" together, but `E_SCHEMA_MISSING` is exit 1 (line 661) and only `E_GATE_MISMATCH` is exit 3 (line 663). The tests here assert each code's own mapping. Decided 2026-10-22, owner: option a — §3.12 stands; the §6 P0 row was reworded to "`E_GATE_MISMATCH` → exit 3 and `E_SCHEMA_MISSING` → exit 1, per §3.12, as stubs" (spec rev 2.1, §14 entry).
 - G-C: line 728 names `config/arch-gates.yml` as the file to rewrite, while line 871 and the brief name `arch-gates.yml` under workflows. Packet asserts neither path exists (S5).
 - G-D (resolved by the audit, not a gap): the spec writes the dNh form as `{ workspace = "../chatstack" }` (line 147). uv documents this form: the `workspace` field "can also be set to a path string to resolve a dependency from a different workspace"; the path "must point to the external workspace root" and uv picks the member whose name matches the dependency (audit `out/external-fact-check.md`, E8, SUPPORTED, docs.astral.sh). The in-workspace boolean `workspace = true` is a different, same-workspace form. X3 still exercises both dNh forms against the real uv version pinned at build time (Stop S6 if the pinned uv rejects it).
-- G-E: X4 needs "a pinned wheel", but the release contract (line 142) ties wheels to `core-vX.Y.Z` tags and P0 states no tag. See B9.
+- G-E (decided 2026-10-22, owner: option b): X4 needs "a pinned wheel", and the release contract (line 142) ties wheels to `core-vX.Y.Z` tags. P0 therefore ends by cutting the pre-release tag `core-v0.0.1a0`; the wheel and `SHA256SUMS` built from that tagged tree are the release assets dNh pins (B9, Task 6 job 5, Task 7 Step 5). The tag needs the same owner authority as the remote (Stop S1).
 - G-F: the CI-URL recording location, repo remote name and visibility, runner labels, tool versions, hook revisions and the dNh branch name are not stated. All marked UNKNOWN/proposed above.
 
 ## Stop conditions (implementer stops and returns to the supervisor)
