@@ -1,0 +1,8 @@
+auditor: kimi
+requested model: moonshotai/kimi-k3
+requested effort: runner default
+command: ( cd "/Users/hue/code/Dopemux-ChatRipperXXX/docs/superpowers/audits/2026-10-22-p0-packet-audit/out" && cmd -p "$(cat "/Users/hue/code/Dopemux-ChatRipperXXX/docs/superpowers/audits/2026-10-22-p0-packet-audit/PROMPT-kimi.md")" --model moonshotai/kimi-k3 --permission-mode plan -t --no-session --max-turns 300 --output-format text --add-dir /Users/hue/code/Dopemux-ChatRipperXXX --add-dir /Users/hue/code/dNh_CRM )
+start: 2026-10-22T11:08:16Z
+end: 2026-10-22T11:11:07Z
+exit code: 0
+stdout bytes: 79

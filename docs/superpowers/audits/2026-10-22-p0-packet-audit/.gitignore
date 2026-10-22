@@ -1,0 +1,12 @@
+__pycache__/
+out/_*.tmp.*
+# raw `cmd -p --output-format json` NDJSON streams (8–297 MB); kept locally only.
+# Derived counts/usage/session ids are recorded in out/_run-<auditor>.txt and out/<auditor>.usage.txt.
+out/argon.stdout.md
+out/deepseek.stdout.md
+out/kimi.stdout.md
+# Binary input pack sent to Astra Pro (repo pre-commit hook rejects non-UTF-8 files).
+# Its contents are committed as text under inputs/ and bundles/; its sha256 is recorded in the receipts.
+chatx-p0-packet-audit-pack-2026-10-22.zip
+# Command Code runtime state written into the lane cwd by cmd lanes; not evidence.
+out/.commandcode/

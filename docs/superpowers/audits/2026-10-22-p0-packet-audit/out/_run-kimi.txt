@@ -1,0 +1,11 @@
+auditor: kimi
+attempt: 3 (read-only print mode, cwd=$D, plan mode; attempt-1/2 artefacts in out/_attempt1-cmd-failed/ and out/_attempt2-cmd-failed/)
+requested model: moonshotai/kimi-k3
+requested effort: runner default
+command: ( cd "/Users/hue/code/Dopemux-ChatRipperXXX/docs/superpowers/audits/2026-10-22-p0-packet-audit" && cmd -p "$(cat "/Users/hue/code/Dopemux-ChatRipperXXX/docs/superpowers/audits/2026-10-22-p0-packet-audit/PROMPT-kimi.readonly.md")" --model moonshotai/kimi-k3 --permission-mode plan -t --max-turns 300 --output-format json )
+start: 2026-10-22T17:09:50Z
+end: 2026-10-22T17:31:47Z
+exit code: 0
+stdout bytes (NDJSON): 158008984
+extract exit code: 0 (0 = both deliverables written, 4 = missing block(s), 3 = no final text)
+observed usage: {"usage": {"inputTokens": 777332, "outputTokens": 36545, "cacheReadTokens": 578806, "cacheWriteTokens": 0}, "subtype": "success", "sessionId": "7fae8b94-e248-437b-a41f-80fec8cf7e0f", "stopReason": "end_turn", "durationMs": 1314664}

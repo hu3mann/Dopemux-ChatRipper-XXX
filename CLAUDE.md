@@ -278,3 +278,22 @@ These markdown prompts live under `.claude/commands/` so you (and Claude) can re
 
 > **Token thrift**: Claude-Context ≤**3**; ConPort `limit` **3–5**; **TaskMaster** `status` + `withSubtasks=false`; **Zen** `files≤2` + `continuation_id`; **Context7** auto-integrated (no manual calls needed); prefer summaries before full context pulls.
 - use serena for file and shell work
+---
+
+## 🎯 Governance Principles
+
+**Doctrine**: truth over fluency, inspect before editing, minimal correct change, deterministic systems first, fail closed when evidence is missing.
+
+**Default workflow**: `inspect → analyze → trace → plan → challenge → implement minimally → validate → precommit → summarize truthfully`.
+
+**Non-negotiables**:
+- **Authority order**: latest user instruction → `AGENTS.md` / Task Packet → runtime code → schemas → tests → config → docs → assumptions. Runtime outranks docs. Mark unresolved authority as `UNKNOWN`.
+- **PAL chains**: if `AGENTS.md` defines chains, that file wins. Otherwise default minimum: `analyze → planner → codereview → precommit`; risky/architecture variant adds `thinkdeep → challenge` and a closing `challenge`.
+- **Confidence states**: `exploring / low / medium / high / certain`. `certain` requires direct evidence.
+- **Validation buckets**: report **PASS / FAIL / NOT_RUN** — never collapse `NOT_RUN` into `PASS`.
+- **Contract-sensitive surfaces** (schemas, migrations, event payloads, manifests, hooks) require canonical-writer inspection before editing.
+- **Security**: least privilege, fail-closed, never expose secrets, strict tool isolation.
+
+**Required final response shape**: Change Summary · Authority Used · Analysis Performed · Validation Performed (PASS/FAIL/NOT_RUN) · Remaining Uncertainty · Files Touched · Git State · Rollback Plan · Requested Next Step.
+
+**Full doctrine**: `.claude/governance-principles.md`.
